@@ -1,12 +1,18 @@
 const express = require("express");
 const app = express();
 const { connectDB } = require("./config/database");
+const { User } = require("./models/user");
 
-app.use("/test", (req, res) => {
-  res.send("Testing Page...Loading");
-});
-app.use("/", (req, res) => {
-  res.send("Hello World!");
+app.use(express.json());
+app.post("/signup", async (req, res) => {
+  try {
+    console.log(req.body);
+    const user = new User(req.body);
+    await user.save();
+    res.send("User is Added");
+  } catch (err) {
+    res.status(401).send("ERROR : " + err.message);
+  }
 });
 
 connectDB()
