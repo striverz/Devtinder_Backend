@@ -11,4 +11,12 @@ const validateSignUpData = (data) => {
   }
 };
 
-module.exports = { validateSignUpData };
+const validateEditFields = (data) => {
+  const keys = Object.keys(data);
+
+  const isValid = keys[0] === "firstName";
+
+  return isValid;
+};
+
+module.exports = { validateSignUpData, validateEditFields };
