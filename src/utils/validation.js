@@ -12,11 +12,16 @@ const validateSignUpData = (data) => {
 };
 
 const validateEditFields = (data) => {
-  const keys = Object.keys(data);
+  try {
+    const allowedEditFields = ["firstName", "lastName", "about", "skills"];
 
-  const isValid = keys[0] === "firstName";
-
-  return isValid;
+    const isEditAllowed = Object.keys(data).every((field) =>
+      allowedEditFields.includes(field)
+    );
+    return isEditAllowed;
+  } catch (err) {
+    res.send("ERROR : " + err.message);
+  }
 };
 
 module.exports = { validateSignUpData, validateEditFields };

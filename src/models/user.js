@@ -1,25 +1,48 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const userSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    minLength: 3,
+const userSchema = new mongoose.Schema(
+  {
+    firstName: {
+      type: String,
+      minLength: 3,
+    },
+    lastName: {
+      type: String,
+      minLength: 3,
+    },
+    emailId: {
+      type: String,
+      lowercase: true,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    gender: {
+      type: String,
+      validate: {
+        validator: (value) => {
+          if (!["male", "female"].includes(value)) {
+            throw new Error("The Gender is Not valid");
+          }
+        },
+      },
+    },
+    about: {
+      default: "This is default one",
+      type: String,
+      maxLength: 100,
+    },
+    skills: {
+      type: [String],
+    },
   },
-  lastName: {
-    type: String,
-    minLength: 3,
-  },
-  emailId: {
-    type: String,
-    lowercase: true,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 userSchema.methods.getJWT = async function () {
   const user = this;
