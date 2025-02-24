@@ -5,7 +5,11 @@ const { User } = require("./models/user");
 const { validateSignUpData } = require("./utils/validation");
 const bcrypt = require("bcryptjs");
 
+const cookieParser = require("cookie-parser");
+const authUser = require("./middlewares/user");
+
 app.use(express.json());
+app.use(cookieParser());
 
 app.post("/signup", async (req, res) => {
   try {
@@ -44,10 +48,21 @@ app.post("/login", async (req, res) => {
       hashPassword
     );
     if (isPasswordValid) {
+      const token = await findUser.getJWT();
+
+      res.cookie("token", token);
       res.send("Logined Successfully");
     } else {
       throw new Error("Password is Wrong");
     }
+  } catch (err) {
+    res.send("ERROR : " + err.message);
+  }
+});
+
+app.get("/profile", authUser, async (req, res) => {
+  try {
+    res.send(req.user);
   } catch (err) {
     res.send("ERROR : " + err.message);
   }
