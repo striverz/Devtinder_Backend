@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema(
         },
       },
     },
+    photoURL: {
+      type: String,
+      default: "https://superman.img",
+    },
     about: {
       default: "This is default one",
       type: String,

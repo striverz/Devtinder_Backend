@@ -44,7 +44,7 @@ userAuth.post("/login", async (req, res) => {
       const token = await findUser.getJWT();
 
       res.cookie("token", token);
-      res.send("Logined Successfully");
+      res.send(findUser);
     } else {
       throw new Error("Password is Wrong");
     }
