@@ -32,7 +32,7 @@ userAuth.post("/login", async (req, res) => {
   try {
     const findUser = await User.findOne({ emailId: req.body.emailId });
 
-    if (!findUser) throw new Error("Email is Not registered");
+    if (!findUser) throw new Error(" Invalid Credentials!");
 
     const hashPassword = findUser.password;
 
@@ -40,16 +40,15 @@ userAuth.post("/login", async (req, res) => {
       req.body.password,
       hashPassword
     );
-    if (isPasswordValid) {
-      const token = await findUser.getJWT();
+    if (!isPasswordValid) throw new Error(" Invalid Credentials!");
 
-      res.cookie("token", token);
-      res.send(findUser);
-    } else {
-      throw new Error("Password is Wrong");
-    }
+    //If Everything was fine then only create token and send the user back
+
+    const token = await findUser.getJWT();
+    res.cookie("token", token);
+    res.send(findUser);
   } catch (err) {
-    res.send("ERROR : " + err.message);
+    res.status(400).send("Error : " + err.message);
   }
 });
 

@@ -4,6 +4,8 @@ const userRouter = express.Router();
 const { ConnectionRequest } = require("../models/connection");
 const { User } = require("../models/user");
 
+const USER_SAFE_DATA = "firstName lastName  skills about photoURL";
+
 userRouter.get("/user/requests", authUser, async (req, res) => {
   try {
     const loggedInUser = req.user;
@@ -76,7 +78,7 @@ userRouter.get("/feed", authUser, async (req, res) => {
         { _id: { $ne: loggedInUser } },
       ],
     })
-      .select("firstName lastName")
+      .select(USER_SAFE_DATA)
       .skip(skip)
       .limit(limit);
 
