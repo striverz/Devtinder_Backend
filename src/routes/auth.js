@@ -21,8 +21,10 @@ userAuth.post("/signup", async (req, res) => {
       password: passwordHash,
     });
 
-    await user.save();
-    res.send("User is Added");
+    const savedUser = await user.save();
+    const token = await savedUser.getJWT();
+    res.cookie("token", token);
+    res.send(savedUser);
   } catch (err) {
     res.status(401).send("ERROR : " + err.message);
   }

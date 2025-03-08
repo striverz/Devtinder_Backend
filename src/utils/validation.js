@@ -13,7 +13,13 @@ const validateSignUpData = (data) => {
 
 const validateEditFields = (data) => {
   try {
-    const allowedEditFields = ["firstName", "lastName", "about", "skills"];
+    const allowedEditFields = [
+      "firstName",
+      "lastName",
+      "about",
+      "skills",
+      "photoURL",
+    ];
 
     const isEditAllowed = Object.keys(data).every((field) =>
       allowedEditFields.includes(field)
