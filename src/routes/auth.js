@@ -24,7 +24,7 @@ userAuth.post("/signup", async (req, res) => {
     const savedUser = await user.save();
     const token = await savedUser.getJWT();
     res.cookie("token", token);
-    res.send(savedUser);
+    res.json({ message: "Signup Successful", data: savedUser });
   } catch (err) {
     res.status(401).send("ERROR : " + err.message);
   }
@@ -48,7 +48,7 @@ userAuth.post("/login", async (req, res) => {
 
     const token = await findUser.getJWT();
     res.cookie("token", token);
-    res.send(findUser);
+    res.json({ message: "Login Successful", data: findUser });
   } catch (err) {
     res.status(400).send("Error : " + err.message);
   }

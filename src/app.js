@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const { connectDB } = require("./config/database");
 const cookieParser = require("cookie-parser");
+const port = 3333;
 
 const userAuth = require("./routes/auth");
 const profileRouter = require("./routes/profile");
@@ -26,7 +27,9 @@ app.use("/", userRouter);
 connectDB()
   .then(() => {
     console.log("Data Base Connected");
-    app.listen(3333, () => console.log("App listed at port 3333"));
+    app.listen(port, () =>
+      console.log(`Server is running on https://localhost:${port}`)
+    );
   })
   .catch((err) => {
     console.log("Data Base Not Connected");
