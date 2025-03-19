@@ -7,7 +7,7 @@ const validator = require("validator");
 
 profileRouter.get("/profile/view", authUser, async (req, res) => {
   try {
-    res.send(req.user);
+    res.json({ message: "view profile", data: req.user });
   } catch (err) {
     res.send("ERROR : " + err.message);
   }
@@ -26,7 +26,9 @@ profileRouter.patch("/profile/edit", authUser, async (req, res) => {
       loggedInUser[key] = req.body[key];
     });
     await loggedInUser.save();
-    res.send(`Hey! ${loggedInUser.firstName} your details are updated`);
+    res.json({
+      message: `Hey! ${loggedInUser.firstName} your details are updated`,
+    });
   } catch (err) {
     res.send("ERROR : " + err.message);
   }
@@ -54,7 +56,7 @@ profileRouter.patch("/profile/password", authUser, async (req, res) => {
     loggedInUser.password = passwordHash;
 
     await loggedInUser.save();
-    res.send("The Password is Changed Successfully");
+    res.json({ message: "The Password is Changed Successfully" });
   } catch (err) {
     res.send("ERROR : " + err.message);
   }

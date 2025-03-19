@@ -75,7 +75,7 @@ requestRouter.post(
 
       connectionRequest.status = status;
       const data = await connectionRequest.save();
-      res.send("Connection is accepted");
+      res.json({ message: "Connection is accepted" });
     } catch (err) {
       res.send("ERROR : " + err.message);
     }
