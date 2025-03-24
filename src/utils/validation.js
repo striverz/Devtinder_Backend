@@ -19,6 +19,8 @@ const validateEditFields = (data) => {
       "about",
       "skills",
       "photoURL",
+      "designation",
+      "location",
     ];
 
     const isEditAllowed = Object.keys(data).every((field) =>

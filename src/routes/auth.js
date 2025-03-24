@@ -34,7 +34,9 @@ userAuth.post("/login", async (req, res) => {
   try {
     const findUser = await User.findOne({ emailId: req.body.emailId });
 
-    if (!findUser) throw new Error(" Invalid Credentials!");
+    if (!findUser) {
+      return res.status(401).json({ error: "Invalid Credentials!" });
+    }
 
     const hashPassword = findUser.password;
 
@@ -50,7 +52,7 @@ userAuth.post("/login", async (req, res) => {
     res.cookie("token", token);
     res.json({ message: "Login Successful", data: findUser });
   } catch (err) {
-    res.status(400).send("Error : " + err.message);
+    res.status(500).json({ error: err.message });
   }
 });
 

@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema(
     },
     photoURL: {
       type: String,
-      default: "https://superman.img",
+      default: "https://wallpapercave.com/wp/wp3067438.jpg",
     },
     about: {
       default: "This is default one",
@@ -41,6 +41,12 @@ const userSchema = new mongoose.Schema(
     },
     skills: {
       type: [String],
+    },
+    designation: {
+      type: String,
+    },
+    location: {
+      type: String,
     },
   },
   {

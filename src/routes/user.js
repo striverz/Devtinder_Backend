@@ -4,7 +4,8 @@ const userRouter = express.Router();
 const { ConnectionRequest } = require("../models/connection");
 const { User } = require("../models/user");
 
-const USER_SAFE_DATA = "firstName lastName  skills about photoURL";
+const USER_SAFE_DATA =
+  "firstName lastName  skills about photoURL designation location";
 
 userRouter.get("/user/requests", authUser, async (req, res) => {
   try {
@@ -13,7 +14,7 @@ userRouter.get("/user/requests", authUser, async (req, res) => {
     const connectionRequests = await ConnectionRequest.find({
       status: "interested",
       toUserId: loggedInUser._id,
-    }).populate("fromUserId", "firstName lastName");
+    }).populate("fromUserId", USER_SAFE_DATA);
     if (!connectionRequests) throw new Error("No connection Requests found");
 
     const data = connectionRequests;
@@ -29,6 +30,7 @@ userRouter.get("/user/requests", authUser, async (req, res) => {
 userRouter.get("/user/connections", authUser, async (req, res) => {
   try {
     const loggedInUser = req.user;
+
     const connections = await ConnectionRequest.find({
       $or: [
         { toUserId: loggedInUser._id, status: "accepted" },
@@ -37,12 +39,13 @@ userRouter.get("/user/connections", authUser, async (req, res) => {
     })
       .populate("fromUserId")
       .populate("toUserId");
+    console.log(connections);
 
     const data = connections.map((row) => {
-      if (row.fromUserId._id.toString() === loggedInUser._id.toString()) {
+      if (row?.fromUserId?._id.toString() === loggedInUser._id.toString()) {
         return row.toUserId;
       }
-      return row.fromUserId;
+      return row?.fromUserId;
     });
 
     res.json({
