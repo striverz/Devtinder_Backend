@@ -8,7 +8,7 @@ const userAuth = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
-var cors = require("cors");
+const cors = require("cors");
 
 app.use(
   cors({
