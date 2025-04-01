@@ -14,8 +14,10 @@ app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
+    methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
   })
 );
+
 app.use(express.json()); //middle ware for reading json data
 app.use(cookieParser()); //middle ware for reading the cookies
 
