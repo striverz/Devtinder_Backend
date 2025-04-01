@@ -14,7 +14,7 @@ const userRouter = require("./routes/user");
 // ✅ Fix: Allow CORS for all origins temporarily OR set your frontend’s actual URL
 app.use(
   cors({
-    origin: "http://localhost:5173/", // Dynamically allows any requesting origin
+    origin: "https://devtinder.sbs", // Dynamically allows any requesting origin
     credentials: true, // Allow cookies/tokens to be sent
     methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
   })
