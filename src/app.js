@@ -4,18 +4,17 @@ const { connectDB } = require("./config/database");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-const port = process.env.PORT || 3333; // Use environment variable for flexibility
+const port = process.env.PORT || 3333;
 
 const userAuth = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 
-// ✅ Fix: Allow CORS for all origins temporarily OR set your frontend’s actual URL
 app.use(
   cors({
-    origin: "https://devtinder.sbs", // Dynamically allows any requesting origin
-    credentials: true, // Allow cookies/tokens to be sent
+    origin: "http://localhost:5173/",
+    credentials: true,
     methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
   })
 );
