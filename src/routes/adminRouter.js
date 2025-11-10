@@ -6,11 +6,10 @@ const adminRouter = express.Router();
 
 adminRouter.get("/all-profiles", authUser, async (req, res) => {
   try {
-    const allUsers = await User.find({});
-
+    const findAllUsers = await User.find({});
     res.json({
-      message: "List of all users Profiles",
-      allProfiles: allUsers,
+      message: "The List of users Data",
+      allProfiles: findAllUsers,
     });
   } catch (err) {
     res.status(401).json({
