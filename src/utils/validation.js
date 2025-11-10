@@ -28,7 +28,9 @@ const validateEditFields = (data) => {
     );
     return isEditAllowed;
   } catch (err) {
-    res.send("ERROR : " + err.message);
+    res.status(401).json({
+      message: err.message,
+    });
   }
 };
 
