@@ -5,20 +5,10 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config();
 
-const port = process.env.PORT || 3333;
-
 const userAuth = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
-
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-    methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
-  })
-);
 
 app.use(express.json()); // Middleware for JSON parsing
 app.use(cookieParser()); // Middleware for handling cookies
@@ -29,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use("/", userAuth);
+app.use("/v1/api", userAuth);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
@@ -38,8 +28,10 @@ app.use("/", userRouter);
 connectDB()
   .then(() => {
     console.log("✅ Database Connected");
-    app.listen(port, () =>
-      console.log(`🚀 Server is running on http://localhost:${port}`)
+    app.listen(process.env.PORT_NUMBER, () =>
+      console.log(
+        `🚀 Server is running on http://localhost:${process.env.PORT_NUMBER}`
+      )
     );
   })
   .catch((err) => {

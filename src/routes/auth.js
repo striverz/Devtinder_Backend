@@ -3,34 +3,40 @@ const userAuth = express.Router();
 const bcrypt = require("bcryptjs");
 const { validateSignUpData } = require("../utils/validation");
 const { User } = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 userAuth.post("/signup", async (req, res) => {
   try {
     //validating the signupdetails
     validateSignUpData(req.body);
-
-    //encrypting the password;
-    const passwordHash = await bcrypt.hash(req.body.password, 10);
-
     const { firstName, lastName, emailId, password } = req.body;
 
-    const user = new User({
-      firstName: firstName,
-      lastName: lastName,
-      emailId: emailId,
+    //Find whether the duplicate user found or not
+
+    const userFound = await User.findOne({ emailId: emailId });
+    if (userFound) throw new Error("User with this email is Already Existed.");
+
+    //encrypting the password;
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    await User.create({
+      firstName,
+      lastName,
+      emailId,
       password: passwordHash,
     });
 
-    const savedUser = await user.save();
-    const token = await savedUser.getJWT();
-    res.cookie("token", token);
-    res.json({ message: "Signup Successful", data: savedUser });
+    res.json({
+      message: "User signup Successful",
+    });
   } catch (err) {
-    res.status(401).send("ERROR : " + err.message);
+    res.status(401).json({
+      message: err.message,
+    });
   }
 });
 
-userAuth.post("/login", async (req, res) => {
+userAuth.post("/signin", async (req, res) => {
   try {
     const findUser = await User.findOne({ emailId: req.body.emailId });
 
@@ -48,9 +54,12 @@ userAuth.post("/login", async (req, res) => {
 
     //If Everything was fine then only create token and send the user back
 
-    const token = await findUser.getJWT();
+    const token = await jwt.sign({ id: findUser._id }, process.env.JWT_SECRET);
+
     res.cookie("token", token);
-    res.json({ message: "Login Successful", data: findUser });
+    res.json({
+      message: "User Login Successful",
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
