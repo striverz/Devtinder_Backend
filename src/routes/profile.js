@@ -9,7 +9,9 @@ profileRouter.get("/profile/view", authUser, async (req, res) => {
   try {
     res.json({ message: "view profile", data: req.user });
   } catch (err) {
-    res.status(401).send("ERROR : " + err.message);
+    res.status(401).json({
+      message: "Issue in Profile view",
+    });
   }
 });
 

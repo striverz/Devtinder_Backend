@@ -54,7 +54,7 @@ userAuth.post("/signin", async (req, res) => {
 
     //If Everything was fine then only create token and send the user back
 
-    const token = await jwt.sign({ id: findUser._id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: findUser._id }, process.env.JWT_SECRET);
 
     res.cookie("token", token);
     res.json({
