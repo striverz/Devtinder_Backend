@@ -9,6 +9,7 @@ const userAuth = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
+const { adminRouter } = require("./routes/adminRouter");
 
 app.use(express.json()); // Middleware for JSON parsing
 app.use(cookieParser()); // Middleware for handling cookies
@@ -32,6 +33,7 @@ app.use("/v1/api", userAuth);
 app.use("/v1/api", profileRouter);
 app.use("/v1/api", requestRouter);
 app.use("/v1/api", userRouter);
+app.use("/v1/api", adminRouter);
 
 // ✅ Fix: Improved database connection error handling
 connectDB()

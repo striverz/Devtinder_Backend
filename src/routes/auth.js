@@ -67,6 +67,8 @@ userAuth.post("/signin", async (req, res) => {
 
 userAuth.post("/logout", async (req, res) => {
   res.cookie("token", null, { expires: new Date(Date.now()) });
-  res.send("Logout Successfully");
+  res.json({
+    message: "User Logout Successful!",
+  });
 });
 module.exports = userAuth;
